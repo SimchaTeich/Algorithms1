@@ -19,7 +19,7 @@ def choose_good_pivot(A):
     for group in groups:
         group.sort()
     
-    # be is the medians of the groups
+    # B is the medians of the groups
     B = [g[len(g)//2] for g in groups]
     
     # return the median of medians
