@@ -7,8 +7,13 @@ from random import shuffle
 
 
 def choose_good_pivot(A):
+    """
+:   exactly the same as function in slide 23.
+:   the goal is to find the median by
+:   median of medians.
+    """
     # divide A into groups of size 5
-    groups = [A[i:i + 5] for i in range(0,len(A), 5)]
+    groups = [A[i:i + 5] for i in range(0, len(A), 5)]
     
     # sort each group
     for group in groups:
@@ -26,7 +31,7 @@ def select(A, t):
 :   func finds recursivly the
 :   t^th value of A if A was ordered
 :
-:   compex: T(n) = {
+:   complex: T(n) = {
 :                      n < 50: c'*n
 :                      n >= 50: c*n + T(n/5) + T((7/10)*n)
 :                  }
@@ -58,7 +63,7 @@ def select(A, t):
 
 def main():
     # create an array
-    arr = [i for i in range(1,100+1)]
+    arr = [i for i in range(1, 100+1)]
     
     # shuffle it
     shuffle(arr)
