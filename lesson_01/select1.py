@@ -42,7 +42,7 @@ def select(A, t):
 
 def main():
     # create an array
-    arr = [i for i in range(1,100+1)]
+    arr = [i for i in range(1,100 + 1)]
     
     # shuffle it
     shuffle(arr)
