@@ -1,4 +1,6 @@
-# Taken from lecture 1 slide 9
+#------------------------------#
+# Taken from lecture 1 slide 9 #
+#------------------------------#
 
 from random import shuffle
 
