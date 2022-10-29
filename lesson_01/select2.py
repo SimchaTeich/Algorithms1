@@ -34,7 +34,7 @@ def select(A, t):
 :   complex: T(n) = {
 :                      n < 50: c'*n
 :                      n >= 50: c*n + T(n/5) + T((7/10)*n)
-:                  }
+:                   }
 :           ==> O(n)
 :
 :   param A: unsorted array
