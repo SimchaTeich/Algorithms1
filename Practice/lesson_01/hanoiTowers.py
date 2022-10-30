@@ -32,8 +32,6 @@ def hanoi(diskettes_number, src, dst, helper):
         hanoi(diskettes_number - 1, helper, dst, src)
     
 
-
-
 def main():
     
     print("Hanoi Towers: A - is src, B - is dst, C- is helper")
