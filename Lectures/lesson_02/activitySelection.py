@@ -3,9 +3,6 @@
 #-----------------------------------#
 
 
-MIN = 0
-MAX = 100
-
 def greedy_activity_selection(activities):
     """
 :   find list of activities that its lenght is maximum
@@ -83,7 +80,7 @@ def printActivities(activities):
 :                    and finish-time is integer which sustains: start-time < finish-time <= 99. 
     """
     for i,(s, f) in activities:
-        print(f"{i}. " + ("-" * s) + ("#" * (f - s)) + ("-" * (MAX - f)))
+        print(f"{i}. " + ("-" * s) + ("#" * (f - s)) + ("-" * (100 - f)))
         
         
 def main():
