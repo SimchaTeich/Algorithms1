@@ -37,7 +37,8 @@ def dynamic_fibonacci(n):
         values.append(values[-2] + values[-1])
     
     return values[-1]
-    
+
+
 def main():
     n = 0
     while True:
