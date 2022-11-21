@@ -1,6 +1,7 @@
-#-------------------------------------------#
-# Just BFS was taken from lecture 5 slide 9 #
-#-------------------------------------------#
+#------------------------------------------#
+# BFS was taken from lecture 5 slide 9     #
+# PRINT_PATH taken from lecture 5 slide 17 #
+#------------------------------------------#
 from os import system
 from time import sleep
 
@@ -20,7 +21,7 @@ class Node:
         self._prev = None
     
     def __str__(self):
-        return str(self._color)
+        return f"({self.get_x()}, {self.get_y()})"
     
     def get_x(self):
         return self._x
@@ -36,6 +37,9 @@ class Node:
     
     def get_color(self):
         return self._color
+    
+    def get_prev(self):
+        return self._prev
     
     def add_neighbor(self, new_node):
         self._neighbors.append(new_node)
@@ -66,7 +70,7 @@ class Board:
         for i in range(self._side):
             for j in range(self._side):
                 if self._board[i][j]:
-                    s += str(self._board[i][j])
+                    s += str(self._board[i][j].get_color())
                     s += " "
                 else:
                     s += "  "
@@ -89,12 +93,12 @@ class Board:
 :       type s: Node 
         """
         self.print_level()
-        
+    
         # init the start node
         s.update_color() # to gray
         s.set_distance(0)
         s.set_prev(None)
-            
+    
         self.print_level()
         
         Q = [s]
@@ -106,11 +110,27 @@ class Board:
                     v.set_distance(u.get_distance() + 1)
                     v.set_prev(u)
                     Q.insert(0, v)
-                    
-                    
+         
             u.update_color() # to black
             self.print_level()
 
+
+    def print_path(self, s, v):
+        """
+:       print cordintas of path from s to v recursivly,
+:       according to the PATH-TREE just after one BFS.
+:       param s: node for start the path
+:       type s: Node
+:       param v: node for end the path
+:       type v: Node
+        """
+        if s == v:
+            print(v, "-->", end='') 
+        elif v.get_prev() != None:
+            self.print_path(s, v.get_prev())
+            print(v, "-->", end='')
+        else:
+            print(f"No path from s:{s} to v:{v}!")
 
 def main():
     
@@ -140,6 +160,9 @@ def main():
     # run the BFS!
     board.BFS(n2)
 
+    # find the path from n2 to n4.
+    print(f"Path from {n2} to {n4}:")
+    board.print_path(n2, n4)
 
 if __name__ == "__main__":
     main()
