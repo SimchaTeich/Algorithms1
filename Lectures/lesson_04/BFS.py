@@ -134,7 +134,7 @@ def main():
     n5.add_neighbor(n2)
     n5.add_neighbor(n4)
     
-    # insert all node to matrix folow by coorinates
+    # insert all nodes to matrix folow by coorinates
     board = Board(5, [n1, n2, n3, n4, n5])
     
     # run the BFS!
