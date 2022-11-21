@@ -1,5 +1,9 @@
+#-------------------------------------------#
+# Just BFS was taken from lecture 5 slide 9 #
+#-------------------------------------------#
 from os import system
 from time import sleep
+
 
 WHITE = 0
 GRAY = 1
@@ -70,27 +74,35 @@ class Board:
             s += '\n'
         return s
     
+    
     def print_level(self):
         system("cls")
         #print("#-----------------#")
         print(self)
-        sleep(2)
+        sleep(1)
     
-    def BFS(self, start_node):
+    
+    def BFS(self, s):
+        """
+:       The BFS algo same as slide 9
+:       param s: strating node
+:       type s: Node 
+        """
         self.print_level()
         
-        start_node.update_color()
-        start_node.set_distance(0)
-        start_node.set_prev(None)
+        # init the start node
+        s.update_color() # to gray
+        s.set_distance(0)
+        s.set_prev(None)
             
         self.print_level()
         
-        Q = [start_node]
+        Q = [s]
         while Q:
             u = Q.pop()
             for v in u.get_neighbors():
                 if v.get_color() == WHITE:
-                    v.update_color()
+                    v.update_color() # to gray
                     v.set_distance(u.get_distance() + 1)
                     v.set_prev(u)
                     Q.insert(0, v)
@@ -101,12 +113,16 @@ class Board:
 
 
 def main():
+    
+    # build the next undirected-graph:
+    # V = {1, 2, 3, 4, 5}
     n1 = Node(1, 1)
     n2 = Node(2, 3)
     n3 = Node(3, 1)
     n4 = Node(4, 2)
     n5 = Node(4, 4)
     
+    # E = {(1, 2), (1, 3), (2, 3), (3, 5), (4, 5)}
     n1.add_neighbor(n2)
     n1.add_neighbor(n3)
     n2.add_neighbor(n1)
@@ -118,14 +134,10 @@ def main():
     n5.add_neighbor(n2)
     n5.add_neighbor(n4)
     
-    print(n1.get_neighbors())
-    print(n2.get_neighbors())
-    print(n3.get_neighbors())
-    print(n4.get_neighbors())
-    print(n5.get_neighbors())
-    
-    
+    # insert all node to matrix folow by coorinates
     board = Board(5, [n1, n2, n3, n4, n5])
+    
+    # run the BFS!
     board.BFS(n2)
 
 
