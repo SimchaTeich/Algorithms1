@@ -3,32 +3,63 @@
 #--------------------------------#
 from functools import reduce
 from functools import cmp_to_key
+from os import system
+from time import sleep
 
 LEFT = "LEFT"
 SAME_LINE = "SAME_LINE"
 RIGHT = "RIGHT"
 
+TAKEN = "X"
+NOT_TAKEN = "O"
 
 class Point:
     def __init__(self, x, y):
         self._x = x
         self._y = y
+        self._sign = NOT_TAKEN
         
-    def __str__(self):
+    def __repr__(self):
         return f"({self._x}, {self._y})"
+    
+    def __str__(self):
+        return self._sign
     
     def get_x(self):
         return self._x
         
     def get_y(self):
         return self._y
+        
+    def update_sign(self):
+        if self._sign == TAKEN:
+            self._sign = NOT_TAKEN
+        else:
+            self._sign = TAKEN
+            
 
 
 class Board:
     def __init__(self, points):
         self._points = points
         self._point_with_min_y = self._find_point_min_y()
+        self._board = [[None]*25 for _ in range(23)]
+        
+        # init board
+        for p in self._points:
+            self._board[23 - p.get_y()][p.get_x()] = p
+        
     
+    def print_board(self):
+        system("cls")
+        for i in range(23):
+            for j in range(25):
+                if self._board[i][j]:
+                    print(self._board[i][j], end='')
+                else:
+                    print('  ', end='')
+            print()
+        sleep(1)
     
     def _determinant_2x2(self, matrix):
         """
@@ -116,15 +147,23 @@ class Board:
         points = self._sort_points_by_angle()
         
         stack = []
-        stack.append(points[0])
+        
+        points[0].update_sign() # 'O' --> 'X'
+        self.print_board()
+        stack.append(points[0]) # 'O' --> 'X'
+        
+        points[1].update_sign()
+        self.print_board()
         stack.append(points[1])
         
         for i in range(2, len(points)):
             while self._direction(stack[-2], stack[-1], points[i]) == LEFT:
-                stack.pop(-1)
+                stack.pop(-1).update_sign()  # 'X' --> 'O'
             
+            points[i].update_sign() # 'O' --> 'X'
+            self.print_board()
             stack.append(points[i])
-        
+            
         return stack
         
 def main():
@@ -142,10 +181,11 @@ def main():
     q11 = Point(23, 4)
     
     board = Board([q11, q1, q10, q2, q9, q3, q8, q4, q7, q5, q6])
+    board.print_board()
     
     c_h = board.convex_hull()
     for p in c_h:
-        print(p)
+        print(p.__repr__())
     
 if __name__ == "__main__":
     main()
