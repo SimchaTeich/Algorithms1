@@ -40,11 +40,18 @@ def determinant_3x3(matrix):
            matrix[0][2] * determinant_2x2([matrix[1][:-1], matrix[2][:-1]])
 
 
-def direction(p1, p2, p3)-> int:
+def direction(p1, p2, p3):
     """
-:   return 1 for left
-:   return 0 for same line
-:   return -1 for right
+:   return the direction according to the algo
+:   with determinant.
+:   param p1: the first point
+:   type p1: Point
+:   param p2: the second point
+:   type p2: Point
+:   param p3: the third point
+:   type p3: Point
+:   return: direction from p2 to p3
+:   rtype: str
     """
     matrix = [[         1,          1,          1],
               [p1.get_x(), p2.get_x(), p3.get_x()],
