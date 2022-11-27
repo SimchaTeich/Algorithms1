@@ -52,13 +52,15 @@ class Board:
     
     def print_board(self):
         system("cls")
+        
         for i in range(23):
             for j in range(25):
                 if self._board[i][j]:
                     print(self._board[i][j], end='')
                 else:
-                    print('  ', end='')
+                    print('   ', end='')
             print()
+        
         sleep(1)
     
     def _determinant_2x2(self, matrix):
