@@ -1,7 +1,8 @@
-#----------------------#
-# Taken from lecture 7 #
-#----------------------#
-
+#--------------------------------#
+# ideas was taken from lecture 7 #
+#--------------------------------#
+from functools import reduce
+from functools import cmp_to_key
 
 LEFT = "LEFT"
 SAME_LINE = "SAME_LINE"
@@ -23,52 +24,106 @@ class Point:
         return self._y
 
 
-def determinant_2x2(matrix):
-    """
-:   calc determinant.
-:   param matrix: square matrix 2x2
-:   param type: list of list type double.
-:   return: determinant.
-:   rtype: double.
-    """
-    return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
-
-
-def determinant_3x3(matrix):
-    return matrix[0][0] * determinant_2x2([matrix[1][1:], matrix[2][1:]]) -\
-           matrix[0][1] * determinant_2x2([[matrix[1][0], matrix[1][2]], [matrix[2][0], matrix[2][2]]]) +\
-           matrix[0][2] * determinant_2x2([matrix[1][:-1], matrix[2][:-1]])
-
-
-def direction(p1, p2, p3):
-    """
-:   return the direction according to the algo
-:   with determinant.
-:   param p1: the first point
-:   type p1: Point
-:   param p2: the second point
-:   type p2: Point
-:   param p3: the third point
-:   type p3: Point
-:   return: direction from p2 to p3
-:   rtype: str
-    """
-    matrix = [[         1,          1,          1],
-              [p1.get_x(), p2.get_x(), p3.get_x()],
-              [p1.get_y(), p2.get_y(), p3.get_y()]]
+class Board:
+    def __init__(self, points):
+        self._points = points
+        self._point_with_min_y = self._find_point_min_y()
     
     
-    d = determinant_3x3(matrix)
-    if d > 0:
-        return LEFT
-    elif d == 0:
-        return SAME_LINE
-    else:
-        return RIGHT
+    def _determinant_2x2(self, matrix):
+        """
+    :   calc determinant.
+    :   param matrix: square matrix 2x2
+    :   param type: list of list type double.
+    :   return: determinant.
+    :   rtype: double.
+        """
+        return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
 
+    
+    def _determinant_3x3(self, matrix):
+        return matrix[0][0] * determinant_2x2([matrix[1][1:], matrix[2][1:]]) -\
+            matrix[0][1] * determinant_2x2([[matrix[1][0], matrix[1][2]], [matrix[2][0], matrix[2][2]]]) +\
+            matrix[0][2] * determinant_2x2([matrix[1][:-1], matrix[2][:-1]])
+
+
+    def _direction(self, p1, p2, p3):
+        """
+    :   return the direction according to the algo
+    :   with determinant.
+    :   param p1: the first point
+    :   type p1: Point
+    :   param p2: the second point
+    :   type p2: Point
+    :   param p3: the third point
+    :   type p3: Point
+    :   return: direction from p2 to p3
+    :   rtype: str
+        """
+        matrix = [[       1,          1,          1],
+                [p1.get_x(), p2.get_x(), p3.get_x()],
+                [p1.get_y(), p2.get_y(), p3.get_y()]]
+    
+    
+        d = determinant_3x3(matrix)
+        if d > 0:
+            return LEFT
+        elif d == 0:
+            return SAME_LINE
+        else:
+            return RIGHT
+    
+    
+    def _find_point_min_y(self):
+        """
+    :   function finds the point with the
+    :   minimum value of y coordinate.
+    :   return: the point was described abouve.
+    :   rtype: Point        
+        """
+        return reduce(lambda min_p, p: min_p if min_p.get_y() < p.get_y() else p, self._points, self._points[0])
+    
+    
+    def _direction_comperator(p1, p2):
+        """
+    :   a comperator by direction of p1--->p--->p2
+    :   param p1, p2: two points to compare
+    :   type p1, p2: Point
+        """
+        direction = self._direction(p1, self._point_with_min_y, p2)
+        
+        if direction == LEFT:
+            return -1
+        elif direction == SAME_LINE:
+            return 0
+        else direction == RIGHT:
+            return 1
+
+            
+    def _sort_points_by_angle(self):
+        """
+    :   sort the points by angle point with min y
+    :   return: the sorted points where first
+    :           point is with minimal y
+    :   rtype: list of Point
+        """
+        points_without_p = list(filter(lambda p: p != p_with_min_y, self._points))
+        points_without_p.sort(key = cmp_to_key(self._direction_comperator))        
+        return [_self._point_with_min_y] + points_without_p
+
+
+    def convex_hull():
+        points = self._sort_points_by_angle()
+        
+        
+        
+        
+        
 
 def main():
+    
 
+'''
     # left (slide 9)
     print(direction(Point(1, 2), Point(7, 1), Point(4, 7)))
     
@@ -77,6 +132,6 @@ def main():
     
     # same line
     print(direction(Point(1, 1), Point(2, 2), Point(3, 3)))
-    
+'''    
 if __name__ == "__main__":
     main()
